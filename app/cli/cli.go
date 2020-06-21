@@ -27,7 +27,7 @@ func StartCLI() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		logger.Fatal("Unable to start the ", zap.Error(err))
+		logger.Fatal("Unable to start the application, ", zap.Error(err))
 	}
 }
 
@@ -42,8 +42,9 @@ func setAppProperties(app *cliV2.App) {
 		" with \n   the given tags using a single command."
 	app.CustomAppHelpTemplate = "Image-poster "
 	app.Version = cliVersion
+	//TODO: BKS autocompletion of the app is not happening
 	app.EnableBashCompletion = true
-	app.CustomAppHelpTemplate = fmt.Sprintf("%s \nmore info at: https://github.com/mayflyman4/image-poster\n", cliV2.AppHelpTemplate)
+	app.CustomAppHelpTemplate = fmt.Sprintf("%s \nMore information at: https://github.com/mayflyman4/image-poster\n", cliV2.AppHelpTemplate)
 
 	//Author related
 	authtorBks := cliV2.Author{Name: "Bharath Kumar", Email: "shettybharath4@gmail.com"}
@@ -52,8 +53,8 @@ func setAppProperties(app *cliV2.App) {
 
 //addCommands add commands list to the CLI commands
 func addCommands(app *cliV2.App) {
-	cmdStartServer := commands.AddCommandStartServer()
 	app.Commands = []*cliV2.Command{
-		cmdStartServer,
+		// commands.AddCommandStartServer(),
+		commands.AddCommandAddPlatform(),
 	}
 }

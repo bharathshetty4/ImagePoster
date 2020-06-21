@@ -28,6 +28,6 @@ func AddCommandStartServer() *cli.Command {
 }
 
 func startServer(c *cli.Context) error {
-	fmt.Println("starting the server", c.Args)
+	fmt.Printf("starting the server")
 	return nil
 }
