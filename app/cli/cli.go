@@ -2,21 +2,21 @@ package cli
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	cliV2 "github.com/urfave/cli/v2"
 	"go.uber.org/zap"
 
 	commands "github.com/mayflyman4/image-poster/app/cli/commands"
-	"github.com/mayflyman4/image-poster/utils/logger"
 )
 
+// TODO: get the version from a File
 const (
 	cliVersion = "0.0.1"
 )
 
 func StartCLI() {
-	logger := logger.GetLogger()
 	app := cliV2.NewApp()
 
 	//set cli properties
@@ -27,7 +27,7 @@ func StartCLI() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		logger.Fatal("Unable to start the application, ", zap.Error(err))
+		log.Fatal("Unable to start the application, ", zap.Error(err))
 	}
 }
 

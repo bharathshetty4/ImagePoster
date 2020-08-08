@@ -3,24 +3,29 @@ package cli
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"strings"
 
+	"github.com/mayflyman4/image-poster/internal/platform"
 	cli "github.com/urfave/cli/v2"
 	"go.uber.org/zap"
-
-	"github.com/mayflyman4/image-poster/utils/logger"
 )
 
+var (
+	supportedPlatforms string
+	AppName            = "image-poster"
+)
+
+//platform related information needed for the CLI loaded
 func init() {
-	logger := logger.GetLogger()
 	pwd, err := os.Getwd()
 	if err != nil {
-		logger.Fatal("Unable to get os info", zap.Error(err))
+		log.Fatal("Unable to get os info", zap.Error(err))
 	}
 	platform, err := ioutil.ReadFile(pwd + "/supported-platforms.txt")
 	if err != nil {
-		logger.Fatal("Unable to open the file to get the supported platforms", zap.Error(err))
+		log.Fatal("Unable to open the file to get the supported platforms", zap.Error(err))
 	}
 	platforms := strings.Split(strings.TrimSpace(string(platform)), "\n")
 	for _, platform := range platforms {
@@ -31,10 +36,6 @@ func init() {
 		supportedPlatforms = fmt.Sprintf("%s, %s", supportedPlatforms, platform)
 	}
 }
-
-var (
-	supportedPlatforms string
-)
 
 func AddCommandAddPlatform() *cli.Command {
 	return &cli.Command{
@@ -63,6 +64,17 @@ func AddCommandAddPlatform() *cli.Command {
 }
 
 func addPlatform(c *cli.Context) error {
-	fmt.Printf("adding the platform")
+	if c.Args().Len() <= 0 {
+		fmt.Println("Platform name is not provided. Please provide name of the platform you wanted add.")
+		fmt.Printf("\nRun '%s %s --help' for the detailed usage of this command.\n\n", AppName, c.Command.FullName())
+		return nil
+	}
+	fmt.Println("Adding the platform", c.Args().Get(0))
+	pf := platform.NewPlatform(strings.ToLower(c.Args().Get(0)))
+	if pf == nil {
+		fmt.Printf("\nError \n")
+		return nil
+	}
+	pf.AddAccount(c.Context)
 	return nil
 }

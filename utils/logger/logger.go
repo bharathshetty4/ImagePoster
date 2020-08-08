@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"context"
 	"log"
 
 	"go.uber.org/zap"
@@ -16,7 +17,8 @@ func StartLogger() {
 	}
 }
 
-func GetLogger() *zap.Logger {
+//TODO: get req-id for context and set it for zap
+func GetLogger(ctx context.Context) *zap.SugaredLogger {
 	if logger == nil {
 		var err error
 		logger, err = zap.NewProduction()
@@ -24,5 +26,7 @@ func GetLogger() *zap.Logger {
 			log.Fatalf("Unable to start the application!, Error: %s", err.Error())
 		}
 	}
-	return logger
+	sLogger := logger.Sugar()
+	sLogger = sLogger.With("LogID", "12345")
+	return sLogger
 }

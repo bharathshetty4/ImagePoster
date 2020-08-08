@@ -1,5 +1,7 @@
 package model
 
 type Platform struct {
-	Name string `json:"name"`
+	Platform string `json:"platform"`
+	UserName string `json:"name"`
+	Password string `json:"password"`
 }

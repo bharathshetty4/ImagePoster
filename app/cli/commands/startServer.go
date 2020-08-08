@@ -13,7 +13,7 @@ func AddCommandStartServer() *cli.Command {
 		Usage:   "Start a server to do RESTful calls",
 		Description: "Command to enable RESTful API calls which can be used to upload images, profile update etc." +
 			"\n   Please check the api list available at <swagger_placeholder>",
-		//TODO: BKS: insert seagger url here.
+		//TODO: BKS: insert swagger url here.
 		UsageText: "image-poster server [command options]",
 		Flags: []cli.Flag{
 			&cli.IntFlag{
