@@ -5,4 +5,5 @@ Supported Platforms:
 
 
 Planned Platforms:
-
+Flickr
+500px
